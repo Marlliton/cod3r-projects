@@ -1,7 +1,9 @@
+
 const algoliasearch = require("algoliasearch");
+require("dotenv").config();
 
 // Cria um novo index e adiciona um registro
-const client = algoliasearch("R4A2IRNKQT", "296a44eb5899f1e4199c1ecda4a21d9a");
+const client = algoliasearch(process.env.APLICATION_ID, process.env.ADMIN_KEY);
 const idDoCurso = "forum:inciando-com-html-e-css";
 const index = client.initIndex("forum");
 
@@ -36,6 +38,6 @@ async function consultar() {
 }
 
 (async function () {
-  await criarIndex();
-  // await consultar();
+  // await criarIndex();
+  await consultar();  
 })();
