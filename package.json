@@ -1,0 +1,10 @@
+{
+  "name": "cod3r-projects",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Marlliton <marlliton.souza1@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/tasks": "^3.0.0"
+  }
+}

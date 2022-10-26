@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs" /* Specify what module code is generated. */,
+
+    "esModuleInterop": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true ,
+
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+  }
+}
