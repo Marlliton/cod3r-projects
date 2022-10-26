@@ -1,4 +1,4 @@
-export interface RepositorioMsgResposta {
+export interface RepositorioPubSub {
   criarTopico(nomeDoTopico: string): Promise<any>;
   criarInscricaoNoTopico( nomeOuIdDoTopico: string, nomeDaInscricao: string
   ): Promise<any>;

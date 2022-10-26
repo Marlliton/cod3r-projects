@@ -1,9 +1,9 @@
-import { RepositorioMsgResposta } from "../../core/msgResposta/RepositorioMsgResposta";
+import { RepositorioPubSub } from "../../core/pubSub/RepositorioPubSub";
 
-export default class ColacaoFilaMsgResposta implements RepositorioMsgResposta {
-  private _provedor: RepositorioMsgResposta;
+export default class ColacaoFilaMsgResposta implements RepositorioPubSub {
+  private _provedor: RepositorioPubSub;
 
-  constructor(provedor: RepositorioMsgResposta) {
+  constructor(provedor: RepositorioPubSub) {
     this._provedor = provedor
   }
   async criarTopico(nomeTopico: string): Promise<any> {

@@ -1,6 +1,6 @@
 import ColacaoFilaMsgResposta from "../adapter/db/ColecaoFilaMsgResposta";
 import { ProvedorPubSub } from "../core/dados/ProvedorPubSub";
-import servicoMsgResposta from "../core/msgResposta/servicoMsgResposta";
+import servicoPubSub from "../core/pubSub/servicoPubSub";
 
 interface ServicosProps {
   pubSub: ProvedorPubSub;
@@ -13,8 +13,8 @@ class Servicos {
     this._props = props;
   }
 
-  get pubSub(): servicoMsgResposta {
-    return new servicoMsgResposta(
+  get pubSub(): servicoPubSub {
+    return new servicoPubSub(
       new ColacaoFilaMsgResposta(this._props.pubSub)
     );
   }

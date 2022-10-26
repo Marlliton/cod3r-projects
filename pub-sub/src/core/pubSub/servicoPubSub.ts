@@ -1,9 +1,9 @@
-import { RepositorioMsgResposta } from "./RepositorioMsgResposta";
+import { RepositorioPubSub } from "./RepositorioPubSub";
 
-export default class servicoMsgResposta {
-  private _repo: RepositorioMsgResposta;
+export default class servicoPubSub {
+  private _repo: RepositorioPubSub;
 
-  constructor(repo: RepositorioMsgResposta) {
+  constructor(repo: RepositorioPubSub) {
     this._repo = repo
   }
 
