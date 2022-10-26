@@ -11,8 +11,6 @@ export default class ColacaoFilaMsgResposta implements RepositorioPubSub {
   }
 
   detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void> {
-    console.log("Deletar Tópico Coleção")
-
     return this._provedor.detetarTopico(nomeOuIdDoTopico, nomeDoInscrito);
   }
 

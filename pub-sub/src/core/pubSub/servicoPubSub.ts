@@ -30,7 +30,6 @@ export default class servicoPubSub {
   }
 
   detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void> {
-    console.log("Deletar Tópico Serviço")
     return this._repo.detetarTopico(nomeOuIdDoTopico, nomeDoInscrito);
   }
 }
