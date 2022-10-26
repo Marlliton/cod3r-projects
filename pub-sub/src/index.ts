@@ -70,7 +70,6 @@ escutarAtualizacoes()
 
 
 
-
 // let contador = 0;
 // const servicoResposta = new ServicoResposta();
 

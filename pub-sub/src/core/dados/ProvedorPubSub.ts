@@ -2,7 +2,7 @@ import { PubSub, Subscription, Topic } from "@google-cloud/pubsub";
 
 interface ProvedorPubSubProps {
   criarTopico(nomeDoTopico: string): Promise<Topic>;
-  detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito: any): Promise<void>;
+  detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void>;
   criarInscricaoNoTopico(
     nomeOuIdDoTopico: string,
     nomeDaInscricao: string
@@ -28,12 +28,15 @@ class ProvedorPubSub implements ProvedorPubSubProps {
 
   async detetarTopico(
     nomeOuIdDoTopico: string,
-    nomeDoInscrito: any
+    nomeDoInscrito?: any
   ): Promise<void> {
-    if (!(await this._verificarSeExisteTopico(nomeOuIdDoTopico))) return;
-    if (
-      await this._verificarSeExisteInscrito(nomeOuIdDoTopico, nomeDoInscrito)
-    ) {
+    const temTopico = await this._verificarSeExisteTopico(nomeOuIdDoTopico);
+    const temInscrito = await this._verificarSeExisteInscrito(nomeOuIdDoTopico, nomeDoInscrito);
+    
+    console.log("1 console", temTopico);
+    console.log("2 console", temInscrito);
+    if (!temTopico) return;
+    if (temInscrito) {
       await this._pubSub
         .topic(nomeOuIdDoTopico)
         .subscription(nomeDoInscrito)
@@ -76,33 +79,26 @@ class ProvedorPubSub implements ProvedorPubSubProps {
 
   private _verificarSeExisteTopico(nomeOuIdDoTopico: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      try {
-        this._pubSub.topic(nomeOuIdDoTopico).exists((err, existe) => {
-          if (!existe) return reject("false");
-          resolve(true);
-        });
-      } catch (error) {
-        reject(false);
-      }
+      this._pubSub.topic(nomeOuIdDoTopico).exists((err, existe) => {
+        if (err) reject(err);
+        resolve(existe!);
+      });
     });
   }
 
   private _verificarSeExisteInscrito(
     nomeOuIdDoTopico: string,
-    nomeDoInscrito: string
+    nomeDoInscrito?: string
   ): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      try {
-        this._pubSub
-          .topic(nomeOuIdDoTopico)
-          .subscription(nomeDoInscrito)
-          .exists((err, existe) => {
-            if (!existe) reject(false);
-            resolve(true);
-          });
-      } catch (error) {
-        reject(false);
-      }
+      if (!nomeDoInscrito) return resolve(false);
+      this._pubSub
+        .topic(nomeOuIdDoTopico)
+        .subscription(nomeDoInscrito)
+        .exists((err, existe) => {
+          if (err) return reject(err);
+          resolve(true);
+        });
     });
   }
 }
