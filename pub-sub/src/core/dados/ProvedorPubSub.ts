@@ -2,7 +2,10 @@ import { PubSub, Subscription, Topic } from "@google-cloud/pubsub";
 
 interface ProvedorPubSubProps {
   criarTopico(nomeDoTopico: string): Promise<Topic>;
-  criarInscricaoNoTopico( nomeOuIdDoTopico: string, nomeDaInscricao: string
+  detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito: any): Promise<void>;
+  criarInscricaoNoTopico(
+    nomeOuIdDoTopico: string,
+    nomeDaInscricao: string
   ): Promise<Subscription>;
   escutarMensagens(nomeInscrito: string): Promise<any>;
   enviarMensagem(nomeOuIdDoTopico: string, msg: any): Promise<void>;
@@ -23,10 +26,31 @@ class ProvedorPubSub implements ProvedorPubSubProps {
     return topic;
   }
 
-  async criarInscricaoNoTopico(nomeOuIdDoTopico: string, nomeDaInscricao: string
+  async detetarTopico(
+    nomeOuIdDoTopico: string,
+    nomeDoInscrito: any
+  ): Promise<void> {
+    if (!(await this._verificarSeExisteTopico(nomeOuIdDoTopico))) return;
+    if (
+      await this._verificarSeExisteInscrito(nomeOuIdDoTopico, nomeDoInscrito)
+    ) {
+      await this._pubSub
+        .topic(nomeOuIdDoTopico)
+        .subscription(nomeDoInscrito)
+        .delete();
+    }
+
+    await this._pubSub.topic(nomeOuIdDoTopico).delete();
+  }
+
+  async criarInscricaoNoTopico(
+    nomeOuIdDoTopico: string,
+    nomeDaInscricao: string
   ): Promise<Subscription> {
-    const [subscription] = await this._pubSub.topic(nomeOuIdDoTopico).createSubscription(nomeDaInscricao);
-    return subscription
+    const [subscription] = await this._pubSub
+      .topic(nomeOuIdDoTopico)
+      .createSubscription(nomeDaInscricao);
+    return subscription;
   }
 
   async escutarMensagens(nomeInscrito: string) {
@@ -37,16 +61,51 @@ class ProvedorPubSub implements ProvedorPubSubProps {
       console.log(`\tDados da msg: ${msg.data}`);
 
       msg.ack(); // INFORMA QUE A MSG CHEGOU.
-      return msg
-    }
+      return msg;
+    };
 
-    return inscrito.on("message",lidarComMsg)
+    return inscrito.on("message", lidarComMsg);
   }
+
   async enviarMensagem(nomeOuIdDoTopico: string, msg: any): Promise<void> {
-    const data = JSON.stringify(msg)
-    await this._pubSub.topic(nomeOuIdDoTopico).publishMessage({ data: Buffer.from(data) })
+    const data = JSON.stringify(msg);
+    await this._pubSub
+      .topic(nomeOuIdDoTopico)
+      .publishMessage({ data: Buffer.from(data) });
+  }
+
+  private _verificarSeExisteTopico(nomeOuIdDoTopico: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        this._pubSub.topic(nomeOuIdDoTopico).exists((err, existe) => {
+          if (!existe) return reject("false");
+          resolve(true);
+        });
+      } catch (error) {
+        reject(false);
+      }
+    });
+  }
+
+  private _verificarSeExisteInscrito(
+    nomeOuIdDoTopico: string,
+    nomeDoInscrito: string
+  ): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      try {
+        this._pubSub
+          .topic(nomeOuIdDoTopico)
+          .subscription(nomeDoInscrito)
+          .exists((err, existe) => {
+            if (!existe) reject(false);
+            resolve(true);
+          });
+      } catch (error) {
+        reject(false);
+      }
+    });
   }
 }
 
-export { ProvedorPubSub }
+export { ProvedorPubSub };
 export type { ProvedorPubSubProps };

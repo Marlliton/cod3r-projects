@@ -1,7 +1,7 @@
 interface FilaMsgRespostaProps {
-  status?: string
-  mensagem?: string
-  id?: string
+  dados?: any
+  emailUsuario?: string
+  nomeDoNovoTopicoParaResposta?: string
 }
 
 export default class FilaMsgResposta{
@@ -10,8 +10,7 @@ export default class FilaMsgResposta{
       this._props = props
   }
 
-  get id() { return this._props.id }
-  get mensagem() { return this._props.mensagem }
-  get status() { return this._props.status }
-  get props() { return this._props }
+  get dados() { return this._props.dados }
+  get emailUsuario() { return this._props.emailUsuario }
+  get nomeDoNovoTopicoParaResposta() { return this._props.nomeDoNovoTopicoParaResposta }
 }
