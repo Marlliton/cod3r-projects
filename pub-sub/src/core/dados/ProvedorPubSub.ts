@@ -14,7 +14,7 @@ class ProvedorPubSub implements ProvedorPubSubProps {
   private _pubSub: PubSub;
 
   constructor() {
-    this._pubSub = new PubSub({ projectId: "pub-sub-formacao-dev" });
+    this._pubSub = new PubSub({ projectId: process.env.ID });
   }
 
   async criarTopico(nomeDoTopico: string): Promise<Topic> {

@@ -1,6 +1,8 @@
 import { ProvedorPubSub } from "./core/dados/ProvedorPubSub";
 import TopicoPubSub from "./core/pubSub/TopicoPubSub";
 import { Servicos } from "./service";
+import * as dotenv from "dotenv";
+dotenv.config()
 
 const servicos = new Servicos({ pubSub: new ProvedorPubSub() });
 
