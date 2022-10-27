@@ -3,10 +3,7 @@ import { PubSub, Subscription, Topic } from "@google-cloud/pubsub";
 interface ProvedorPubSubProps {
   criarTopico(nomeDoTopico: string): Promise<Topic>;
   detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void>;
-  criarInscricaoNoTopico(
-    nomeOuIdDoTopico: string,
-    nomeDaInscricao: string
-  ): Promise<Subscription>;
+  criarInscricaoNoTopico(nomeOuIdDoTopico: string, nomeDaInscricao: string): Promise<Subscription>;
   escutarMensagens(nomeInscrito: string): Promise<any>;
   enviarMensagem(nomeOuIdDoTopico: string, msg: any): Promise<void>;
 }
@@ -31,7 +28,10 @@ class ProvedorPubSub implements ProvedorPubSubProps {
     nomeDoInscrito?: any
   ): Promise<void> {
     const temTopico = await this._verificarSeExisteTopico(nomeOuIdDoTopico);
-    const temInscrito = await this._verificarSeExisteInscrito(nomeOuIdDoTopico, nomeDoInscrito);
+    const temInscrito = await this._verificarSeExisteInscrito(
+      nomeOuIdDoTopico,
+      nomeDoInscrito
+    );
 
     if (!temTopico) return;
     if (temInscrito) {
@@ -55,24 +55,30 @@ class ProvedorPubSub implements ProvedorPubSubProps {
   }
 
   async escutarMensagens(nomeInscrito: string) {
-    const inscrito = this._pubSub.subscription(nomeInscrito);
-
-    const lidarComMsg = (msg: any) => {
-      console.log(`\nMensagem recebida ${msg.id}:`);
-      console.log(`\tDados da msg: ${msg.data}`);
-
-      msg.ack(); // INFORMA QUE A MSG CHEGOU.
-      return msg;
-    };
-
-    return inscrito.on("message", lidarComMsg);
+    const inscricao = this._pubSub.subscription(nomeInscrito);
+    const msg = await this._converterMsgRecebida(inscricao)
+    
+    return {
+      idMsg: msg.id,
+      ...JSON.parse(msg.data)
+    }
   }
 
   async enviarMensagem(nomeOuIdDoTopico: string, msg: any): Promise<void> {
-    const data = JSON.stringify(msg);
+    const data = JSON.stringify(msg.props);
     await this._pubSub
       .topic(nomeOuIdDoTopico)
       .publishMessage({ data: Buffer.from(data) });
+  }
+
+  private _converterMsgRecebida(inscricao: Subscription): Promise<any> {
+    return new Promise(resolve => {
+      inscricao.on("message", msg => {
+        
+        resolve(msg);
+        msg.ack(); // INFORMA QUE A MSG CHEGOU.
+      });
+    });
   }
 
   private _verificarSeExisteTopico(nomeOuIdDoTopico: string): Promise<boolean> {

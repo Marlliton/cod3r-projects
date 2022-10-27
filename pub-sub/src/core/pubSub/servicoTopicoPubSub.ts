@@ -1,9 +1,10 @@
-import { RepositorioPubSub } from "./RepositorioPubSub";
+import { RepositorioTopicoPubSub } from "./RepositorioTopicoPubSub";
+import TopicoPubSub from "./TopicoPubSub";
 
 export default class servicoPubSub {
-  private _repo: RepositorioPubSub;
+  private _repo: RepositorioTopicoPubSub;
 
-  constructor(repo: RepositorioPubSub) {
+  constructor(repo: RepositorioTopicoPubSub) {
     this._repo = repo;
   }
 
@@ -25,8 +26,8 @@ export default class servicoPubSub {
     return await this._repo.escutarMensagens(nomeInscrito);
   }
 
-  async enviarMensagem(nomeOuIdDoTopico: string, msg: any) {
-    return this._repo.enviarMensagem(nomeOuIdDoTopico, msg);
+  async enviarMensagem(nomeOuIdDoTopico: string, topico: TopicoPubSub) {
+    return this._repo.enviarMensagem(nomeOuIdDoTopico, topico);
   }
 
   detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void> {

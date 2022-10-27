@@ -1,4 +1,5 @@
 import { ProvedorPubSub } from "./core/dados/ProvedorPubSub";
+import TopicoPubSub from "./core/pubSub/TopicoPubSub";
 import { Servicos } from "./service";
 
 const servicos = new Servicos({ pubSub: new ProvedorPubSub() });
@@ -11,12 +12,11 @@ async function inscreverInteressado() {
   await servicos.pubSub.criarInscricaoNoTopico("recuperacaoSenha", "observadorRecuperarSenha")
 }
 
-let contador = 0
 async function enviarMensagemDeAtualizacao() {
-  await servicos.pubSub.enviarMensagem("recuperacaoSenha", {
-    status: "Sucesso",
-    msg: `Senha Recuperada ${contador}`,
-  })
+  await servicos.pubSub.enviarMensagem("recuperacaoSenha", new TopicoPubSub({
+    dados: {status: "Completo", msg: `Uma mensagem de número`},
+    emailUsuario: "teste@teste.com"
+  }))
 }
 
 async function escutarAtualizacoes() {
@@ -27,10 +27,9 @@ async function escutarAtualizacoes() {
 // criarTopico()
 // inscreverInteressado()
 
-setInterval(() => {
+setTimeout(() => {
   enviarMensagemDeAtualizacao()
-  contador++
-}, 2000)
+}, 3000)
 
 escutarAtualizacoes()
 

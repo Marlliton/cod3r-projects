@@ -1,9 +1,10 @@
-import { RepositorioPubSub } from "../../core/pubSub/RepositorioPubSub";
+import { RepositorioTopicoPubSub } from "../../core/pubSub/RepositorioTopicoPubSub";
+import TopicoPubSub from "../../core/pubSub/TopicoPubSub";
 
-export default class ColacaoFilaMsgResposta implements RepositorioPubSub {
-  private _provedor: RepositorioPubSub;
+export default class ColacaoFilaMsgResposta implements RepositorioTopicoPubSub {
+  private _provedor: RepositorioTopicoPubSub;
 
-  constructor(provedor: RepositorioPubSub) {
+  constructor(provedor: RepositorioTopicoPubSub) {
     this._provedor = provedor;
   }
   async criarTopico(nomeTopico: string): Promise<any> {
@@ -19,10 +20,12 @@ export default class ColacaoFilaMsgResposta implements RepositorioPubSub {
   }
 
   async escutarMensagens(nomeInscrito: string) {
-    return await this._provedor.escutarMensagens(nomeInscrito);
+    const res = await this._provedor.escutarMensagens(nomeInscrito);
+    console.log(res)
+    return res;
   }
 
-  async enviarMensagem(nomeOuIdDoTopico: string, msg: any) {
-    return this._provedor.enviarMensagem(nomeOuIdDoTopico, msg);
+  async enviarMensagem(nomeOuIdDoTopico: string, topico: TopicoPubSub) {
+    return this._provedor.enviarMensagem(nomeOuIdDoTopico, topico);
   }
 }
