@@ -3,7 +3,7 @@ import { PubSub, Subscription, Topic } from "@google-cloud/pubsub";
 interface ProvedorPubSubProps {
   criarTopico(nomeDoTopico: string): Promise<Topic>;
   detetarTopico(nomeOuIdDoTopico: string, nomeDoInscrito?: any): Promise<void>;
-  criarInscricaoNoTopico(nomeOuIdDoTopico: string, nomeDaInscricao: string): Promise<Subscription>;
+  adicionarInscritoNoTopico(nomeOuIdDoTopico: string, nomeDaInscricao: string): Promise<Subscription>;
   escutarMensagens(nomeInscrito: string): Promise<any>;
   enviarMensagem(nomeOuIdDoTopico: string, msg: any): Promise<void>;
 }
@@ -43,7 +43,7 @@ class ProvedorPubSub implements ProvedorPubSubProps {
     await this._pubSub.topic(nomeOuIdDoTopico).delete();
   }
 
-  async criarInscricaoNoTopico(
+  async adicionarInscritoNoTopico(
     nomeOuIdDoTopico: string,
     nomeDaInscricao: string
   ): Promise<Subscription> {

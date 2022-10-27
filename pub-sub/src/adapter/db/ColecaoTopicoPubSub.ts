@@ -1,10 +1,11 @@
+import { ProvedorPubSubProps } from "../../core/dados/ProvedorPubSub";
 import { RepositorioTopicoPubSub } from "../../core/topicoPubSub/RepositorioTopicoPubSub";
 import TopicoPubSub from "../../core/topicoPubSub/TopicoPubSub";
 
-export default class ColacaoFilaMsgResposta implements RepositorioTopicoPubSub {
-  private _provedor: RepositorioTopicoPubSub;
+export default class ColecaoTopicoPubSub implements RepositorioTopicoPubSub {
+  private _provedor: ProvedorPubSubProps;
 
-  constructor(provedor: RepositorioTopicoPubSub) {
+  constructor(provedor: ProvedorPubSubProps) {
     this._provedor = provedor;
   }
   async criarTopico(nomeTopico: string): Promise<any> {
@@ -16,7 +17,7 @@ export default class ColacaoFilaMsgResposta implements RepositorioTopicoPubSub {
   }
 
   async criarInscricaoNoTopico(nomeOuIdDoTopico: string, nomeInscricao: string) {
-    return await this._provedor.criarInscricaoNoTopico(nomeOuIdDoTopico, nomeInscricao);
+    return await this._provedor.adicionarInscritoNoTopico(nomeOuIdDoTopico, nomeInscricao);
   }
 
   async escutarMensagens(nomeInscrito: string) {

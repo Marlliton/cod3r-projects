@@ -1,4 +1,4 @@
-import ColacaoFilaMsgResposta from "../adapter/db/ColecaoFilaMsgResposta";
+import ColecaoTopicoPubSub from "../adapter/db/ColecaoTopicoPubSub";
 import { ProvedorPubSub } from "../core/dados/ProvedorPubSub";
 import servicoPubSub from "../core/topicoPubSub/servicoTopicoPubSub";
 
@@ -15,7 +15,7 @@ class Servicos {
 
   get pubSub(): servicoPubSub {
     return new servicoPubSub(
-      new ColacaoFilaMsgResposta(this._props.pubSub)
+      new ColecaoTopicoPubSub(this._props.pubSub)
     );
   }
 }

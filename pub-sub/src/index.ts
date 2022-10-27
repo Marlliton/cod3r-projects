@@ -24,6 +24,7 @@ async function enviarMensagemDeAtualizacao() {
 async function escutarAtualizacoes() {
   const res = await servicos.pubSub.escutarMensagens("observadorRecuperarSenha")
   console.log(res)
+  process.exit(0)
 }
 
 
