@@ -19,7 +19,6 @@ class ProvedorPubSub implements ProvedorPubSubProps {
 
   async criarTopico(nomeDoTopico: string): Promise<Topic> {
     const [topic] = await this._pubSub.createTopic(nomeDoTopico);
-    console.log("\nO tópico acabou de ser criado. \n\n\n");
     return topic;
   }
 

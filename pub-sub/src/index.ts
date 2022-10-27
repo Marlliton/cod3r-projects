@@ -1,5 +1,5 @@
 import { ProvedorPubSub } from "./core/dados/ProvedorPubSub";
-import TopicoPubSub from "./core/pubSub/TopicoPubSub";
+import TopicoPubSub from "./core/topicoPubSub/TopicoPubSub";
 import { Servicos } from "./service";
 import * as dotenv from "dotenv";
 dotenv.config()
@@ -22,7 +22,8 @@ async function enviarMensagemDeAtualizacao() {
 }
 
 async function escutarAtualizacoes() {
-  await servicos.pubSub.escutarMensagens("observadorRecuperarSenha")
+  const res = await servicos.pubSub.escutarMensagens("observadorRecuperarSenha")
+  console.log(res)
 }
 
 

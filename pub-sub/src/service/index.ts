@@ -1,6 +1,6 @@
 import ColacaoFilaMsgResposta from "../adapter/db/ColecaoFilaMsgResposta";
 import { ProvedorPubSub } from "../core/dados/ProvedorPubSub";
-import servicoPubSub from "../core/pubSub/servicoTopicoPubSub";
+import servicoPubSub from "../core/topicoPubSub/servicoTopicoPubSub";
 
 interface ServicosProps {
   pubSub: ProvedorPubSub;

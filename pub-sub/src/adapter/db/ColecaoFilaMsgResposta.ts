@@ -1,5 +1,5 @@
-import { RepositorioTopicoPubSub } from "../../core/pubSub/RepositorioTopicoPubSub";
-import TopicoPubSub from "../../core/pubSub/TopicoPubSub";
+import { RepositorioTopicoPubSub } from "../../core/topicoPubSub/RepositorioTopicoPubSub";
+import TopicoPubSub from "../../core/topicoPubSub/TopicoPubSub";
 
 export default class ColacaoFilaMsgResposta implements RepositorioTopicoPubSub {
   private _provedor: RepositorioTopicoPubSub;
@@ -20,9 +20,7 @@ export default class ColacaoFilaMsgResposta implements RepositorioTopicoPubSub {
   }
 
   async escutarMensagens(nomeInscrito: string) {
-    const res = await this._provedor.escutarMensagens(nomeInscrito);
-    console.log(res)
-    return res;
+    return await this._provedor.escutarMensagens(nomeInscrito);
   }
 
   async enviarMensagem(nomeOuIdDoTopico: string, topico: TopicoPubSub) {
