@@ -26,6 +26,7 @@ class ProvedorPubSub implements ProvedorPubSubProps {
     nomeOuIdDoTopico: string,
     nomeDoInscrito?: any
   ): Promise<void> {
+    
     const temTopico = await this._verificarSeExisteTopico(nomeOuIdDoTopico);
     const temInscrito = await this._verificarSeExisteInscrito(
       nomeOuIdDoTopico,
