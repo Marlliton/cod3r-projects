@@ -1,0 +1,14 @@
+{
+  "name": "handle-error",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsnd --respawn --clear ./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.8.4"
+  }
+}
